@@ -4,4 +4,4 @@ Live2D公式サンプルからモデルをDownloadしてきてassets配下にセ
 
 Live2D公式サンプルモデル http://sites.cybernoids.jp/cubism2/samples
 
-<img src="https://github.com/naotaro0123/Live2D_Stencil/capture.gif">
+<img src="http://simplecode.jp/lolipop/github/Live2D_Stencil.gif">
