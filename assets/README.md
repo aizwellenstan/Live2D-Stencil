@@ -1,0 +1,2 @@
+# Live2D_Stencil
+ここにLive2D Modelファイルを配置する

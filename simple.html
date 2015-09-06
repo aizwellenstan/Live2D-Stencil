@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Live2D Simple</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=4.0">
+    </meta>
+</head>
+<!-- オフスクリーンの頂点シェーダー -->
+<script id="vs" type="x-shader/x-vertex">
+attribute vec3 position;
+attribute vec4 color;
+attribute vec2 textureCoord;
+uniform   mat4 mvpMatrix;
+varying   vec4 vColor;
+varying   vec2 vTextureCoord;
+
+void main(void){
+    vColor        = color;
+    // シェーダーで上下反転させる
+//    vTextureCoord = vec2(textureCoord.x, 1.0 - textureCoord.y);
+    vTextureCoord = textureCoord;
+    gl_Position   = mvpMatrix * vec4(position, 1.0);
+}
+</script>
+<!-- オフスクリーンのフラグメントシェーダー -->
+<script id="fs" type="x-shader/x-fragment">
+precision mediump float;
+
+uniform sampler2D texture;
+varying vec4      vColor;
+varying vec2      vTextureCoord;
+
+void main(void){
+    vec4 smpColor = texture2D(texture, vTextureCoord);
+    gl_FragColor  = vColor * smpColor;
+}
+</script>
+<!-- 頂点シェーダー(サークル描画) -->
+<script id="circle_vs" type="x-shader/x-vertex">
+attribute vec3 position;
+uniform   mat4 mvpMatrix;
+
+void main(void){
+    gl_Position   = mvpMatrix * vec4(position, 1.0);
+}
+</script>
+<!-- フラグメントシェーダーサークル描画 -->
+<script id="circle_fs" type="x-shader/x-fragment">
+precision mediump float;
+
+void main(void){
+    gl_FragColor  = vec4(1.0, 1.0, 1.0, 1.0);
+}
+</script>
+<body>
+    <canvas id="glcanvas" style="border:dashed 1px #CCC"></canvas>
+    <div id="myconsole" style="color:#BBB">---- Log ----</div>
+    <!-- Live2D Library -->
+    <script src="//simplecode.jp/Live2D_DragDrop/lib/live2d.min.js"></script>
+    <!-- User's Script -->
+    <script src="src/Simple.js"></script>
+    <script src="src/minMatrix.js"></script>
+</body>
+</html>
