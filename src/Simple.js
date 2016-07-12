@@ -113,6 +113,8 @@ Simple.initLoop = function(can/*HTML5 canvasオブジェクト*/)
         Simple.myerror("Failed to create WebGL context.");
         return;
     }
+    // OpenGLのコンテキストをセット
+    Live2D.setGL(gl);
     // イベント処理
     can.addEventListener('mousemove', mouseMove, true);
     can.addEventListener('mousewheel', mouseWheel, true);
@@ -184,9 +186,6 @@ Simple.draw = function(gl/*WebGLコンテキスト*/)
         // テクスチャの元画像の参照をクリア
         loadedImages = null;
 
-        // OpenGLのコンテキストをセット
-        live2DModel.setGL(gl);
-
         // 表示位置を指定するための行列を定義する
         var s = 2.0 / live2DModel.getCanvasWidth(); //canvasの横幅を-1..1区間に収める
         var matrix4x4 = [
@@ -257,8 +256,11 @@ Simple.draw = function(gl/*WebGLコンテキスト*/)
     //           引数2:Stencil=OK&depth=NG
     //           引数3:Stencil=OK&Depth=OK )
     gl.stencilOp(gl.KEEP, gl.KEEP, gl.KEEP);
+    gl.activeTexture(gl.TEXTURE2);
+    // フレームバッファのテクスチャをバインド
+    gl.bindTexture(gl.TEXTURE_2D, ftexture[0]);
     // uniform変数にテクスチャを登録
-    gl.uniform1i(this.uniLocation[1], 0);
+    gl.uniform1i(this.uniLocation[1], 2);
     // モデル座標変換行列の生成
     this.m.identity(this.mMatrix);
     // 行列の掛け合わせ
